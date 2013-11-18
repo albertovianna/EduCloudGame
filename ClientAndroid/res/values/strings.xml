@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Cloud Gaming</string>
+    
+    <string name="ok">OK</string>
+    <string name="error">Error</string>
+        
+    <string name="no_games_list">Server Without Games</string>
+    <string name="please_wait_title">Please, wait.</string>
+    <string name="finding_games">Finding games...</string>
+    
+    <string name="error_finding_server">An error has occurred. Server not found.</string>
+
+</resources>

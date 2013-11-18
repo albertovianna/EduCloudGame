@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eduCloudGaming>
+	<games>
+		<game>
+			<name>MemoryGameTest</name>
+			<communicationClass>com.cloudgaming.communication.Communication</communicationClass>
+		</game>
+		<game>
+			<name>MemoryGame</name>
+			<communicationClass>JogoMemoria</communicationClass>
+		</game>
+	</games>
+</eduCloudGaming>
