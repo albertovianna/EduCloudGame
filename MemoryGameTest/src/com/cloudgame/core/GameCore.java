@@ -1,22 +1,22 @@
 package com.cloudgame.core;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.RectF;
 
 import com.cloudgame.core.models.Piece;
+import com.edu.cloud.gaming.util.ImageHelper;
 
 public class GameCore {
 	
 	//game attributes
-	private Bitmap currentGameImage;
+	private BufferedImage currentGameImage;
+	private ImageHelper imageHelper = new ImageHelper();
 
 	private int gameColumns;
 	private int gameRows;
@@ -26,17 +26,18 @@ public class GameCore {
 	
 	//pieces attributes
 	
-	private Bitmap baseIMG;
+	private BufferedImage baseIMG;
 	private int baseWidth;
 	private int baseHeight;
-	private Bitmap backPiece;
+	private BufferedImage backPiece;
 	private int pieceWidth;
 	private int pieceHeight;
 	private int pieceMargin;
 	private ArrayList<Piece> listIMG;
 	//-------------------------
+	private long delay;
 	
-	public GameCore() {
+	public GameCore() throws IOException, URISyntaxException {
 		configGameAttrs();
 		configPieces();
 		setupRandomPieces();
@@ -49,25 +50,27 @@ public class GameCore {
 		gameMatrix	= new Piece[gameRows][gameColumns];
 	}
 
-	private void configPieces(){
+	private void configPieces() throws URISyntaxException, IOException{
 		//base image
-		baseIMG 	= BitmapFactory.decodeFile("images/teste.png");
+		
+		BufferedImage baseIMG = imageHelper.createBufferedImageFromFilePath("/images/teste.png", this.getClass());
+		
 		baseWidth 	= baseIMG.getWidth();
 		baseHeight 	= baseIMG.getHeight();
 		
 		//backface piece image
-		backPiece 	= BitmapFactory.decodeFile("images/peca0.png");
+		backPiece 	= imageHelper.createBufferedImageFromFilePath("/images/peca0.png", this.getClass());
 		pieceWidth 	= backPiece.getWidth();
 		pieceHeight = backPiece.getHeight();
 		pieceMargin	= -3;
 		
 		//pieces list
 		listIMG = new ArrayList<Piece>();
-		listIMG.add(new Piece(1, BitmapFactory.decodeFile("/images/peca1.png")));
-		listIMG.add(new Piece(2, BitmapFactory.decodeFile("/images/peca2.png")));
-		listIMG.add(new Piece(3, BitmapFactory.decodeFile("/images/peca3.png")));
-		listIMG.add(new Piece(4, BitmapFactory.decodeFile("/images/peca4.png")));
-		listIMG.add(new Piece(5, BitmapFactory.decodeFile("/images/peca5.png")));
+		listIMG.add(new Piece(1, imageHelper.createBufferedImageFromFilePath("/images/peca1.png", this.getClass())));
+		listIMG.add(new Piece(2, imageHelper.createBufferedImageFromFilePath("/images/peca2.png", this.getClass())));
+		listIMG.add(new Piece(3, imageHelper.createBufferedImageFromFilePath("/images/peca3.png", this.getClass())));
+		listIMG.add(new Piece(4, imageHelper.createBufferedImageFromFilePath("/images/peca4.png", this.getClass())));
+		listIMG.add(new Piece(5, imageHelper.createBufferedImageFromFilePath("/images/peca5.png", this.getClass())));
 	}
 	
 	private Piece getPieceByXY(float touchX, float touchY, float scaleContainer){
@@ -83,10 +86,9 @@ public class GameCore {
 	
 	private void generateGameIMG(Piece touchedPiece){
 
-		Bitmap generated = Bitmap.createBitmap(baseWidth, baseHeight, baseIMG.getConfig());
+		//baseWidth, baseHeight
 		
-        Canvas canvas = new Canvas(generated);
-        //canvas.drawBitmap(baseIMG, null, new RectF(0,0,baseWidth,baseHeight), null);
+		BufferedImage combined = new BufferedImage(baseWidth, baseHeight, BufferedImage.TYPE_INT_ARGB);
         
         int visiblePieces = 0;
         boolean foundPair = false;
@@ -107,29 +109,27 @@ public class GameCore {
         }
         //----------------------
         
+        Graphics g = combined.getGraphics();
   		//loop for the pieces image
         for(int r=0;r<gameRows;r++){ //rows
         	for(int c=0;c<gameColumns;c++){ //columns
-        		//canvas.drawBitmap(backPiece, (pieceWidth+pieceMargin)*c, (pieceHeight+pieceMargin)*r, null);
-        		float left 		= (pieceWidth+pieceMargin)*c;
-        		float top 		= (pieceHeight+pieceMargin)*r;
+        		int left 		= (pieceWidth+pieceMargin)*c;
+        		int top 		= (pieceHeight+pieceMargin)*r;
         		float right 	= left+pieceWidth;
         		float bottom 	= top+pieceHeight;
         		
         		Piece piece 		= gameMatrix[r][c];
-        		Bitmap drawBitmap 	= backPiece;
+        		BufferedImage drawBitmap 	= backPiece;
         		
         		if(piece.isVisible()||piece.isPaired()){
         			drawBitmap = piece.getBitmap();
         			visiblePieces++;
         		}
         		
-        		canvas.drawBitmap(drawBitmap, null, new RectF(left,top,right,bottom), null);
+        		g.drawImage(drawBitmap, left, top, null);
             }
         }
         
-        
-        //if any pair was founded and the number of visible pieces is even, trigger generate new image, hiding unpaired pieces
         if(touchedPiece!=null && !foundPair && visiblePieces%2==0){
         	touchedPiece.setVisible(false);
         	lastVisiblePiece.setVisible(false);
@@ -138,24 +138,26 @@ public class GameCore {
         	
         }
         
+        //if any pair was founded and the number of visible pieces is even, trigger generate new image, hiding unpaired pieces
         lastVisiblePiece = touchedPiece;
         
-        currentGameImage = generated;
+        currentGameImage = combined;
 
 	}
 	
-	private void generateGameIMGWithTimer(long delay) {
-        Timer autoUpdate = new Timer();
-        autoUpdate.schedule(new TimerTask() {
+	public void generateGameIMGWithTimer(final long delay) {
+		new Thread( new Runnable() {
+			
 			@Override
 			public void run() {
-				new Runnable() {
-				     public void run() {
-				    	 generateGameIMG();
-				    }
-				};
+				try {
+					Thread.sleep(delay);
+					generateGameIMG();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-		},delay);
+		}).start();
 	}
 	
 	private void setupRandomPieces(){
@@ -189,18 +191,27 @@ public class GameCore {
 		return rand;
 	}
 
-	public void nextMove(float touchX, float touchY, float scale) {
+	public void nextMove(float touchX, float touchY, int w) {
+		
+		float scale = ((float)w)/((float) baseWidth);
+		
 		Piece piece = getPieceByXY(touchX, touchY, scale);
 
 		generateGameIMG(piece);
 
 	}
 
-	public Bitmap getCurrentGameImage() {
+	public BufferedImage getCurrentGameImage() {
 		return currentGameImage;
 	}
 
-	public void setCurrentGameImage(Bitmap currentGameImage) {
+	public void setCurrentGameImage(BufferedImage currentGameImage) {
 		this.currentGameImage = currentGameImage;
+	}
+	
+	
+	public String getPathImage(String path){
+		URL url = this.getClass().getResource(path);
+		return url.getPath();
 	}
 }

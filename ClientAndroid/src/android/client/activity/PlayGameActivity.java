@@ -267,7 +267,7 @@ public class PlayGameActivity extends Activity implements OnTouchListener {
 		
 		if (commandThread != null) {
 			
-			commandThread.setCommand(""+event.getX()+"|"+event.getY());
+			commandThread.setCommand(""+ivGameImage.getWidth()+"|"+ivGameImage.getHeight()+"|"+event.getX()+"|"+event.getY());
 		}
 		
 		return false;

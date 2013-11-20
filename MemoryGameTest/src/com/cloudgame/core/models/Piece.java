@@ -1,16 +1,18 @@
 package com.cloudgame.core.models;
 
+import java.awt.image.BufferedImage;
+
 import android.graphics.Bitmap;
 
 
 public class Piece implements Cloneable{
 	
 	int index;
-	Bitmap bitmap;
+	BufferedImage bitmap;
 	boolean isVisible;
 	boolean isPaired;
 
-	public Piece(int index, Bitmap bitmap) {
+	public Piece(int index, BufferedImage bitmap) {
 		this.index = index;
 		this.bitmap = bitmap;
 	}
@@ -28,11 +30,11 @@ public class Piece implements Cloneable{
 		this.index = index;
 	}
 
-	public Bitmap getBitmap() {
+	public BufferedImage getBitmap() {
 		return bitmap;
 	}
 
-	public void setBitmap(Bitmap bitmap) {
+	public void setBitmap(BufferedImage bitmap) {
 		this.bitmap = bitmap;
 	}
 

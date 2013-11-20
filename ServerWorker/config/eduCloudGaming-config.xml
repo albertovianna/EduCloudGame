@@ -7,7 +7,7 @@
 		</game>
 		<game>
 			<name>MemoryGame</name>
-			<communicationClass>JogoMemoria</communicationClass>
+			<communicationClass>com.cloudgaming.memory.communication.Communication</communicationClass>
 		</game>
 	</games>
 </eduCloudGaming>
