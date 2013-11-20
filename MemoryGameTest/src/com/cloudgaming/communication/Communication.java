@@ -1,65 +1,75 @@
 package com.cloudgaming.communication;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
+
+import android.graphics.Bitmap;
+
+import com.cloudgame.core.GameCore;
 import com.edu.cloud.gaming.communication.EduCloudGamingCommunication;
-import com.edu.cloud.gaming.util.ImageHelper;
 
 public class Communication implements EduCloudGamingCommunication {
 	
 	private static final String IMAGE_DRIVER = "0";
 	private static final String IMAGE_MAP = "1";
 	
+	private static final int WIDTH_IMAGE_INDEX=0;
+	private static final int HEIGHT_IMAGE_INDEX=1;
+	private static final int X_POSITION_INDEX=2;
+	private static final int Y_POSITION_INDEX=3;
+	private static final int WIDE_SCREN_INDEX=4;
+	
+	
 	private static final String PATH_DRIVER = "/images/driver.png";
 	private static final String PATH_MAP = "/images/map_icon.png";
 	
 	private String flagImage = IMAGE_MAP;
+
+	private GameCore game;
+	
+	public Communication() {
+		game = new GameCore();
+	}
 	
 	@Override
 	public BufferedImage sendImage() {
 		
-		ImageHelper imageHelper = new ImageHelper();
+		Bitmap bmp = game.getCurrentGameImage();
 		
-		String path = null;
 		
-		if (flagImage != null && ! flagImage.isEmpty()) {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		byte[] byteArray = stream.toByteArray();
 		
-			if (flagImage.equals(IMAGE_DRIVER)) {
-				path = PATH_DRIVER;
-			} else if (flagImage.equals(IMAGE_MAP)) {
-				path = PATH_MAP;
-			}
+		InputStream in = new ByteArrayInputStream(byteArray);
+		try {
+			return ImageIO.read(in);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
-		BufferedImage bufferedImage = null;
+		return null;
 		
-		if (path != null && ! path.isEmpty()) {
-			try {
-				bufferedImage = imageHelper.createBufferedImageFromFilePath(path, this.getClass());
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		
-		return bufferedImage;
 	}
 
 	@Override
 	public void receiveCommand(String command) {
 		
-		if (command != null && ! command.isEmpty()) {
+		String[] commands = command.split(";");
 		
-			if (flagImage.equals(IMAGE_DRIVER)) {
-				flagImage = IMAGE_MAP;
-			} else if (flagImage.equals(IMAGE_MAP)) {
-				flagImage = IMAGE_DRIVER;
-			}
-		}		
+		int imgW		= Integer.valueOf(commands[WIDTH_IMAGE_INDEX]);
+		int imgH		= Integer.valueOf(commands[HEIGHT_IMAGE_INDEX]);
+		float touchX 	= Float.valueOf(commands[X_POSITION_INDEX]);
+		float touchY 	= Float.valueOf(commands[Y_POSITION_INDEX]);
+		float scale		= ((float)imgW)/((float) Float.valueOf(commands[WIDE_SCREN_INDEX]));
+
+		game.nextMove(touchX,touchY,scale);
+		
 	}
 
 }
