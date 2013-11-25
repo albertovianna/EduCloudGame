@@ -248,13 +248,13 @@ public class MainActivity extends Activity {
 	
 	/* generate a random number in range, excluding specific */	
 	private int getRandomWithExclusion(Random rnd, int start, int end, Integer[] exclude) {
-		  Arrays.sort(exclude);
-		  int rand = 0;
-		  do {
-		    rand = (int) rnd.nextInt(end)+start;
-		  } 
-		  while (Arrays.binarySearch(exclude, rand) >= 0);
-		  return rand;
-		}
+	  Arrays.sort(exclude);
+	  int rand = 0;
+	  do {
+	    rand = (int) rnd.nextInt(end)+start;
+	  } 
+	  while (Arrays.binarySearch(exclude, rand) >= 0);
+	  return rand;
+	}
 
 }

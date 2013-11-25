@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="lib/eduCloudGaming.jar" sourcepath="/EduCloudGaming"/>
 	<classpathentry kind="lib" path="lib/xstream-1.4.5.jar"/>
 	<classpathentry kind="lib" path="games/MemoryGameTest.jar" sourcepath="/MemoryGameTest"/>
+	<classpathentry kind="lib" path="games/MemoryGame.jar" sourcepath="/MemoryGameTest"/>
+	<classpathentry kind="lib" path="lib/android.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
