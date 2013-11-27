@@ -16,7 +16,8 @@ public interface ConstantsI {
 	public static final String WORKER_WINDOW_TITLE = "Worker Server";
 	public static final Integer WORKER_WINDOW_MINIMUM_SIZE = 300;
 	
-	public static final String MANAGER_HOSTNAME = "127.0.0.1";
+//	public static final String MANAGER_HOSTNAME = "127.0.0.1";
+	public static final String MANAGER_HOSTNAME = "10.88.40.239";
 	public static final Integer MANAGER_PORT = 9977;
 //	public static final Integer WORKER_PORT_PLAY = 9966;
 	public static final Integer WORKER_PLAY_GAME_OFF_PORT = 9989;
@@ -25,5 +26,5 @@ public interface ConstantsI {
 	
 	public static final Integer SOCKET_TIMEOUT = 100000;
 	
-	public static final String XML_COMMUNICATION_PATH = "config/eduCloudGaming-config.xml";
+	public static final String XML_COMMUNICATION_PATH = "/config/eduCloudGaming-config.xml";
 }

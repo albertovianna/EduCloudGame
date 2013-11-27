@@ -22,5 +22,5 @@ public interface ConstantsI {
 	
 	public static final Integer DATA_SIZE = 1024;
 	
-	public static final String XML_COMMUNICATION_PATH = "config/eduCloudGaming-config.xml";
+	public static final String XML_COMMUNICATION_PATH = "/config/eduCloudGaming-config.xml";
 }

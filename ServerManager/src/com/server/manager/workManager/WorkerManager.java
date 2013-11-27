@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.server.manager.clientManager.ClientConnectionManager;
 import com.server.manager.util.ConstantsI;
+import com.server.manager.util.LogUtil;
 
 public class WorkerManager implements Runnable {
 
@@ -73,7 +74,7 @@ public class WorkerManager implements Runnable {
 					}
 					
 				} catch (Exception e) {
-					e.printStackTrace();
+					LogUtil.exceptionToFile(e);
 				}
 			}
 		} catch (SocketException e) {
@@ -82,9 +83,9 @@ public class WorkerManager implements Runnable {
 			System.err.println("UDP Port "+actualPort+" is occupied.");
 			System.err.println("####################################");
 			
-			e.printStackTrace();
+			LogUtil.exceptionToFile(e);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.exceptionToFile(e);
 		}
 	}
 	

@@ -1,7 +1,13 @@
 package com.edu.cloud.gaming.util;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 
 import com.edu.cloud.gaming.dto.EduCloudGamingDTO;
 import com.edu.cloud.gaming.dto.GameDTO;
@@ -24,7 +30,24 @@ public class XMLManager {
 		
 		XStream xStream = this.initXStream();
 		
-		EduCloudGamingDTO eduCloudGamingDTO = (EduCloudGamingDTO) xStream.fromXML(new File(xmlCommunicationPath));
+		EduCloudGamingDTO eduCloudGamingDTO = null;
+		
+		URL url = this.getClass().getResource(xmlCommunicationPath);
+		
+		if (url != null) {
+			
+			try {
+				eduCloudGamingDTO = (EduCloudGamingDTO) xStream.fromXML(url.openStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		    
+		} else {
+			
+			System.err.println("URL NULA");
+		}
+		
+//		EduCloudGamingDTO eduCloudGamingDTO = (EduCloudGamingDTO) xStream.fromXML(new File(xmlCommunicationPath));
 		
 		return eduCloudGamingDTO;
 	}

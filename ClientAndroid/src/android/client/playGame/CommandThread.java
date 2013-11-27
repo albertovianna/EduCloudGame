@@ -39,7 +39,7 @@ public class CommandThread extends Thread {
 		if (serverWorkerDTO.getCommandPort() != null) {
 			
 			if (serverWorkerDTO.getInetAddress() != null 
-					&& serverWorkerDTO.getInetAddress().getHostName() != null) {
+					&& serverWorkerDTO.getInetAddress().getHostAddress() != null) {
 				
 				while (true) {
 					
@@ -50,7 +50,7 @@ public class CommandThread extends Thread {
 					if (command != null) {
 						
 						try {
-							socket = SocketConnectionUtil.initSocketClient(serverWorkerDTO.getInetAddress().getHostName(), serverWorkerDTO.getCommandPort());
+							socket = SocketConnectionUtil.initSocketClient(serverWorkerDTO.getInetAddress().getHostAddress(), serverWorkerDTO.getCommandPort());
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}

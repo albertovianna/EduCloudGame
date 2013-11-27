@@ -97,7 +97,7 @@ public class PlayGameThread extends Thread {
 //			Integer port = Integer.parseInt(firstStringArray[1]);
 			
 			if (serverWorkerDTO.getInetAddress() != null 
-					&& serverWorkerDTO.getInetAddress().getHostName() != null) {
+					&& serverWorkerDTO.getInetAddress().getHostAddress() != null) {
 				
 				
 				
@@ -120,12 +120,12 @@ public class PlayGameThread extends Thread {
 //					retunMessage(bytea);
 					
 					try {
-						socket = SocketConnectionUtil.initSocketClient(serverWorkerDTO.getInetAddress().getHostName(), serverWorkerDTO.getPort());
+						socket = SocketConnectionUtil.initSocketClient(serverWorkerDTO.getInetAddress().getHostAddress(), serverWorkerDTO.getPort());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 					
-					//TODO remover teste
+					
 					try {
 						
 						InputStream is = socket.getInputStream();

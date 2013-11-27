@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project ServerWorker">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="C:/Users/Alberto Vianna/Desktop/ServerWorker.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="com.server.worker.main.Main"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="C:/Users/Alberto Vianna/Dropbox/Arquivos/Mestrado/Dissertação/Desenvolvimento/workspace/EduCloudGame/ServerWorker/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Alberto Vianna/Dropbox/Arquivos/Mestrado/Dissertação/Desenvolvimento/workspace/EduCloudGame/ServerWorker/lib/eduCloudGaming.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Alberto Vianna/Dropbox/Arquivos/Mestrado/Dissertação/Desenvolvimento/workspace/EduCloudGame/ServerWorker/lib/xstream-1.4.5.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Alberto Vianna/Dropbox/Arquivos/Mestrado/Dissertação/Desenvolvimento/workspace/EduCloudGame/ServerWorker/games/MemoryGameTest.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Alberto Vianna/Dropbox/Arquivos/Mestrado/Dissertação/Desenvolvimento/workspace/EduCloudGame/ServerWorker/games/MemoryGame.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/Alberto Vianna/Dropbox/Arquivos/Mestrado/Dissertação/Desenvolvimento/workspace/EduCloudGame/ServerWorker/lib/android.jar"/>
+        </jar>
+    </target>
+</project>

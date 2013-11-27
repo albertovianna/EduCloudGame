@@ -134,7 +134,7 @@ public class GameCore {
         	touchedPiece.setVisible(false);
         	lastVisiblePiece.setVisible(false);
 
-        	generateGameIMGWithTimer(1000);
+        	generateGameIMGWithTimer(3000);
         	
         }
         

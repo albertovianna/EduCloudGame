@@ -4,7 +4,8 @@ public interface ConstantI {
 
 //	public static final String MANAGER_HOSTNAME = "192.168.0.114";
 //	public static final String MANAGER_HOSTNAME = "127.0.0.1";
-	public static final String MANAGER_HOSTNAME = "10.0.2.2";
+//	public static final String MANAGER_HOSTNAME = "10.0.2.2";
+	public static final String MANAGER_HOSTNAME = "10.88.40.239";
 	public static final Integer MANAGER_PORT = 9988;
 	public static final Integer WORKER_PLAY_GAME_OFF_PORT = 9989;
 	

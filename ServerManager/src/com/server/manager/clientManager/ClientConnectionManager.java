@@ -10,6 +10,7 @@ import com.edu.cloud.gaming.dto.EduCloudGamingDTO;
 import com.edu.cloud.gaming.dto.GameDTO;
 import com.edu.cloud.gaming.util.XMLManager;
 import com.server.manager.util.ConstantsI;
+import com.server.manager.util.LogUtil;
 import com.server.manager.workManager.WorkerDTO;
 
 public class ClientConnectionManager implements Runnable {
@@ -92,6 +93,8 @@ public class ClientConnectionManager implements Runnable {
 			while (true) {
 				
 				try {
+					//exTODO remover e tirar comentario abaixo
+//					throw new Exception("Teste");
 					
 					receiveData = new byte[ConstantsI.DATA_SIZE]; 
 					DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -178,7 +181,7 @@ public class ClientConnectionManager implements Runnable {
 					}
 					
 				} catch (Exception e) {
-					e.printStackTrace();
+					LogUtil.exceptionToFile(e);
 				}
 			}
 		} catch (SocketException e) {
@@ -187,9 +190,9 @@ public class ClientConnectionManager implements Runnable {
 			System.err.println("UDP Port "+actualPort+" is occupied.");
 			System.err.println("####################################");
 			
-			e.printStackTrace();
+			LogUtil.exceptionToFile(e);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.exceptionToFile(e);
 		}
 	}
 	
